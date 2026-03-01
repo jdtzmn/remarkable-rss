@@ -44,7 +44,7 @@ const handlers: handlers = {
       "Set-Cookie",
       serialize("token", token, {
         httpOnly: true,
-        secure: process.env.NOVE_ENV === "production",
+        secure: process.env.NODE_ENV === "production",
         path: "/",
       })
     );

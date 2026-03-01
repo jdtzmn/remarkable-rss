@@ -10,7 +10,7 @@ const handlers: handlers = {
       "Set-Cookie",
       serialize("token", "deleted", {
         httpOnly: true,
-        secure: process.env.NOVE_ENV === "production",
+        secure: process.env.NODE_ENV === "production",
         path: "/",
         expires: new Date(0),
       })
