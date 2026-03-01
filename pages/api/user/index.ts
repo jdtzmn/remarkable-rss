@@ -26,6 +26,8 @@ const handlers: handlers = {
       username: user.username,
       hasDeviceToken: user.deviceToken !== null,
       feeds: user.feeds,
+      cronSchedule: user.cronSchedule,
+      cronEnabled: user.cronEnabled,
     };
     return res.status(200).json({ success: true, user: response });
   },

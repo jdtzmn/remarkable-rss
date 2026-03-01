@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
 import Parser from "rss-parser";
-import { object, string } from "yup";
+import { boolean, number, object, string } from "yup";
 import config from "../../../../lib/config";
+import { THEMES } from "../../../../models/feed";
 import UserModel from "../../../../models/user";
 import buildRouteHandler, {
   handlers,
@@ -26,8 +27,14 @@ const handlers: handlers = {
     const { body } = req;
     const bodySchema = object({
       url: string().url().required(),
+      theme: string().oneOf([...THEMES]).optional(),
+      maxArticles: number().min(1).max(50).optional(),
+      fetchFullContent: boolean().optional(),
+      includeImages: boolean().optional(),
+      accentColor: string().optional(),
     });
-    const { url } = bodySchema.validateSync(body);
+    const { url, theme, maxArticles, fetchFullContent, includeImages, accentColor } =
+      bodySchema.validateSync(body);
 
     const alreadyHasFeed =
       (await user.feeds.find((feed) => feed.url === url)) !== undefined;
@@ -43,6 +50,11 @@ const handlers: handlers = {
       url: url,
       title: parsedFeed.title || url,
       lastParsed: new Date(),
+      ...(theme && { theme }),
+      ...(maxArticles && { maxArticles }),
+      ...(fetchFullContent !== undefined && { fetchFullContent }),
+      ...(includeImages !== undefined && { includeImages }),
+      ...(accentColor && { accentColor }),
     };
 
     user.feeds.push(feed);

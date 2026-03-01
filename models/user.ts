@@ -6,6 +6,8 @@ export interface IUser extends mongoose.Document {
   password: string;
   deviceToken: string | null;
   feeds: Types.DocumentArray<IFeed>;
+  cronSchedule: string;
+  cronEnabled: boolean;
 }
 
 export const UserSchema = new mongoose.Schema<IUser>({
@@ -13,6 +15,8 @@ export const UserSchema = new mongoose.Schema<IUser>({
   password: { type: String, required: true },
   deviceToken: { type: String },
   feeds: [FeedSchema],
+  cronSchedule: { type: String, default: "0 7 * * *" },
+  cronEnabled: { type: Boolean, default: false },
 });
 
 const UserModel: mongoose.Model<IUser> =
