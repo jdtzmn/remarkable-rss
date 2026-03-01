@@ -1,0 +1,84 @@
+/* Magazine theme: drop cap, bold accent color */
+.theme-magazine {
+  --accent: #E5121A;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.7;
+  color: #222;
+}
+
+.theme-magazine .article-title {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  line-height: 1.2;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+}
+
+.theme-magazine .article-meta {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 24px;
+  font-family: -apple-system, Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 12px;
+}
+
+.theme-magazine .article-body {
+  font-size: 17px;
+}
+
+.theme-magazine .article-body > p:first-of-type::first-letter {
+  font-size: 64px;
+  float: left;
+  line-height: 1;
+  margin-right: 8px;
+  margin-top: 4px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.theme-magazine .article-body p {
+  margin-bottom: 16px;
+}
+
+.theme-magazine .article-body img {
+  max-width: 100%;
+  height: auto;
+  margin: 20px 0;
+}
+
+.theme-magazine .article-body h2,
+.theme-magazine .article-body h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 28px 0 12px;
+  color: var(--accent);
+}
+
+.theme-magazine .article-body blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 20px 0;
+  background: #fafafa;
+  font-style: italic;
+  font-size: 19px;
+  color: #444;
+}
+
+.theme-magazine .article-body pre,
+.theme-magazine .article-body code {
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  background: #f5f5f5;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.theme-magazine .article-body pre {
+  padding: 12px;
+  overflow-x: auto;
+  margin: 16px 0;
+}

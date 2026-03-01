@@ -1,0 +1,65 @@
+/* Minimal theme: clean, low-distraction, tight spacing */
+.theme-minimal {
+  --accent: #111;
+  font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #111;
+}
+
+.theme-minimal .article-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.theme-minimal .article-meta {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+.theme-minimal .article-body {
+  font-size: 15px;
+}
+
+.theme-minimal .article-body p {
+  margin-bottom: 12px;
+}
+
+.theme-minimal .article-body img {
+  display: none;
+}
+
+.theme-minimal .article-body figure {
+  display: none;
+}
+
+.theme-minimal .article-body h2,
+.theme-minimal .article-body h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 18px 0 8px;
+}
+
+.theme-minimal .article-body blockquote {
+  border-left: 2px solid #ccc;
+  padding-left: 12px;
+  margin: 12px 0;
+  color: #555;
+}
+
+.theme-minimal .article-body pre,
+.theme-minimal .article-body code {
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  background: #f0f0f0;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+.theme-minimal .article-body pre {
+  padding: 10px;
+  overflow-x: auto;
+  margin: 12px 0;
+}
