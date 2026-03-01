@@ -9,11 +9,6 @@ import buildRouteHandler, { handlers } from "../../../util/buildRouteHandler";
 
 const handlers: handlers = {
   GET: async (req: NextApiRequest, res: NextApiResponse) => {
-    const { headers } = req;
-    if (!(headers["api-key"] === process.env.API_KEY)) {
-      throw new Error("401");
-    }
-
     const parser = new Parser();
 
     const users = await UserModel.find({ deviceToken: { $ne: null } });
