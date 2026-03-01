@@ -6,6 +6,7 @@ import CreateFeedForm from "../../components/CreateFeedForm";
 import FeedList from "../../components/FeedList";
 import Layout from "../../components/Layout";
 import RemarkableConnectForm from "../../components/RemarkableConnectForm";
+import ScheduleForm from "../../components/ScheduleForm";
 
 const Account: NextPage = () => {
   const router = useRouter();
@@ -62,6 +63,10 @@ const Account: NextPage = () => {
           </p>
           <FeedList feeds={user?.feeds} />
           <CreateFeedForm />
+          <ScheduleForm
+            cronSchedule={user?.cronSchedule || "0 7 * * *"}
+            cronEnabled={user?.cronEnabled || false}
+          />
         </>
       ) : (
         <RemarkableConnectForm />
