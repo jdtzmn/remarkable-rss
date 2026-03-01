@@ -1,10 +1,10 @@
+import "../../../lib/crypto-shim";
 import cheerio from "cheerio";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Remarkable } from "remarkable-typescript";
+import { remarkable } from "rmapi-js";
 import Parser from "rss-parser";
 import pdf from "html-pdf";
 import UserModel from "../../../models/user";
-import { v4 as uuidv4 } from "uuid";
 import buildRouteHandler, { handlers } from "../../../util/buildRouteHandler";
 
 const handlers: handlers = {
@@ -16,19 +16,16 @@ const handlers: handlers = {
     for (const user of users) {
       if (!user.deviceToken) continue;
 
-      const remarkableClient = new Remarkable({
-        deviceToken: user.deviceToken,
-      });
-      await remarkableClient.refreshToken();
+      const api = await remarkable(user.deviceToken);
 
-      const remarkableItems = await remarkableClient.getAllItems();
-      const remarkableRssFolder = remarkableItems.find(
-        (item) =>
-          item.VissibleName === "remarkable-rss" && item.Parent !== "trash"
+      const items = await api.listItems();
+      const rssFolder = items.find(
+        (item: any) =>
+          item.visibleName === "remarkable-rss" && item.parent !== "trash"
       );
-      const remarkableRssFolderId =
-        remarkableRssFolder?.ID ||
-        (await remarkableClient.createDirectory("remarkable-rss", uuidv4()));
+      const rssFolderId =
+        rssFolder?.id ||
+        (await api.putFolder("remarkable-rss")).id;
 
       const feeds = user.feeds;
       for (const feed of feeds) {
@@ -42,18 +39,14 @@ const handlers: handlers = {
         feed.lastParsed = new Date();
         if (itemsToConvert.length === 0) continue;
 
-        const remarkableFeedFolder = remarkableItems.find(
-          (item) =>
-            item.VissibleName === feed.title &&
-            item.Parent === remarkableRssFolderId
+        const feedFolder = items.find(
+          (item: any) =>
+            item.visibleName === feed.title &&
+            item.parent === rssFolderId
         );
-        const remarkableFeedFolderId =
-          remarkableFeedFolder?.ID ||
-          (await remarkableClient.createDirectory(
-            feed.title,
-            uuidv4(),
-            remarkableRssFolderId
-          ));
+        const feedFolderId =
+          feedFolder?.id ||
+          (await api.putFolder(feed.title, { parent: rssFolderId })).id;
 
         for (const item of itemsToConvert) {
           if (!item.link) continue;
@@ -87,11 +80,10 @@ const handlers: handlers = {
           await pdf
             .create(minified, pdfOptions)
             .toBuffer(async function (err, buffer) {
-              const pdfUploadedId = await remarkableClient.uploadPDF(
+              await api.putPdf(
                 item.title as string,
-                uuidv4(),
-                buffer,
-                remarkableFeedFolderId
+                new Uint8Array(buffer),
+                { parent: feedFolderId }
               );
             });
         }

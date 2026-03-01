@@ -30,7 +30,7 @@ function buildRouteHandler(handlers: handlers) {
         status = 404;
       } else if (e.message === "401") {
         status = 401;
-      } else if (e.code === "ERR_NON_2XX_3XX_RESPONSE") {
+      } else if (e.code === "ERR_NON_2XX_3XX_RESPONSE" || e.status) {
         status = 400;
       } else {
         status = 500;

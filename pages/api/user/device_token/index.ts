@@ -1,6 +1,7 @@
+import "../../../../lib/crypto-shim";
 import jwt from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Remarkable } from "remarkable-typescript";
+import { register } from "rmapi-js";
 import { object, string } from "yup";
 import config from "../../../../lib/config";
 import UserModel from "../../../../models/user";
@@ -32,8 +33,7 @@ const handlers: handlers = {
     });
     const { oneTimeCode } = bodySchema.validateSync(body);
 
-    const client = new Remarkable();
-    const deviceToken = await client.register({ code: oneTimeCode });
+    const deviceToken = await register(oneTimeCode);
 
     user.deviceToken = deviceToken;
     user.save();
